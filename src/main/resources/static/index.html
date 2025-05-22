@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+    <head>
+        <title>Painel de Chamadas</title>
+        <meta charset="UTF-8">
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+          
+          body {
+              font-family: 'Montserrat', sans-serif;
+              margin: 0;
+              padding: 0;
+              background: linear-gradient(135deg, #0a1f44, #1a4b8c, #3a7bd5);
+              background-size: 400% 400%;
+              animation: gradient 15s ease infinite;
+              height: 100vh;
+              color: white;
+              overflow: hidden;
+              text-align: center;
+          }
+          
+          @keyframes gradient {
+              0% { background-position: 0% 50%; }
+              50% { background-position: 100% 50%; }
+              100% { background-position: 0% 50%; }
+          }
+          
+          .container {
+              max-width: 1000px;
+              margin: 0 auto;
+              padding: 20px;
+          }
+          
+          h1 {
+              font-size: 2.5rem;
+              margin-bottom: 30px;
+              text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+              background: rgba(10, 31, 68, 0.5);
+              padding: 15px;
+              border-radius: 10px;
+              backdrop-filter: blur(5px);
+              border: 1px solid rgba(255, 255, 255, 0.2);
+              color: #e6f2ff;
+              white-space: pre; /* Mantém os espaços */
+          }
+          
+          #main {
+              font-size: 4rem;
+              margin: 30px auto;
+              padding: 40px;
+              background: linear-gradient(145deg, rgba(26, 75, 140, 0.6), rgba(58, 123, 213, 0.4));
+              border-radius: 20px;
+              box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+              min-height: 200px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              backdrop-filter: blur(8px);
+              border: 1px solid rgba(255, 255, 255, 0.3);
+              text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+              animation: pulse 2s infinite alternate;
+              transition: all 0.5s ease;
+              color: #ffffff;
+          }
+          
+          @keyframes pulse {
+              from { transform: scale(1); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); }
+              to { transform: scale(1.02); box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4); }
+          }
+          
+          #main.active {
+              animation: highlight 0.5s ease, pulse 2s infinite alternate 0.5s;
+              background: linear-gradient(145deg, rgba(52, 152, 219, 0.7), rgba(26, 188, 156, 0.5));
+          }
+          
+          @keyframes highlight {
+              0% { transform: scale(1); }
+              50% { transform: scale(1.1); }
+              100% { transform: scale(1); }
+          }
+          
+          #history {
+              margin-top: 40px;
+              font-size: 1.5rem;
+              color: rgba(230, 242, 255, 0.9);
+              background: rgba(10, 31, 68, 0.4);
+              padding: 20px;
+              border-radius: 10px;
+              backdrop-filter: blur(5px);
+              border: 1px solid rgba(255, 255, 255, 0.2);
+          }
+          
+          #history div {
+              padding: 10px;
+              margin: 5px 0;
+              border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+              transition: all 0.3s ease;
+          }
+          
+          #history div:hover {
+              background: rgba(255, 255, 255, 0.15);
+              transform: translateX(10px);
+          }
+          
+          .status {
+              position: fixed;
+              bottom: 20px;
+              right: 20px;
+              padding: 10px 15px;
+              background: rgba(10, 31, 68, 0.6);
+              border-radius: 20px;
+              font-size: 0.9rem;
+              display: flex;
+              align-items: center;
+              color: #e6f2ff;
+              border: 1px solid rgba(255, 255, 255, 0.2);
+          }
+          
+          .status-indicator {
+              width: 10px;
+              height: 10px;
+              border-radius: 50%;
+              margin-right: 8px;
+              background: #e74c3c;
+          }
+          
+          .status-indicator.connected {
+              background: #2ecc71;
+              animation: pulse 1.5s infinite;
+          }
+          
+          /* Efeito de bolhas azuis no fundo */
+          .bubble {
+              position: absolute;
+              border-radius: 50%;
+              background: rgba(255, 255, 255, 0.1);
+              animation: float 15s infinite ease-in-out;
+              z-index: -1;
+          }
+          
+          @keyframes float {
+              0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+              50% { opacity: 0.3; }
+              100% { transform: translateY(-1000px) rotate(720deg); opacity: 0; }
+          }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>Painel de Chamadas</h1>
+            <div id="main">Nenhuma chamada no momento</div>
+            <div id="history"></div>
+            
+            <div class="status">
+                <div class="status-indicator" id="connection-status"></div>
+                <span id="status-text">Conectando...</span>
+            </div>
+        </div>
+        
+        <!-- Bolhas decorativas -->
+        <div id="bubbles"></div>
+      
+        <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+        <script>
+          const main = document.getElementById("main");
+          const history = document.getElementById("history");
+          const historyList = [];
+          const statusIndicator = document.getElementById("connection-status");
+          const statusText = document.getElementById("status-text");
+          const bubblesContainer = document.getElementById("bubbles");
+          
+          // Criar bolhas decorativas
+          function createBubbles() {
+              for (let i = 0; i < 20; i++) {
+                  const bubble = document.createElement('div');
+                  bubble.className = 'bubble';
+                  const size = Math.random() * 100 + 50;
+                  const posX = Math.random() * window.innerWidth;
+                  const delay = Math.random() * 15;
+                  const duration = 10 + Math.random() * 20;
+                  
+                  bubble.style.width = `${size}px`;
+                  bubble.style.height = `${size}px`;
+                  bubble.style.left = `${posX}px`;
+                  bubble.style.bottom = `-${size}px`;
+                  bubble.style.animationDelay = `${delay}s`;
+                  bubble.style.animationDuration = `${duration}s`;
+                  
+                  bubblesContainer.appendChild(bubble);
+                }
+          }
+          
+          // Efeito de digitação para o título
+          const title = document.querySelector('h1');
+          const originalTitle = title.innerText;
+          title.innerText = '';
+          
+          let i = 0;
+          const typeWriter = () => {
+              if (i < originalTitle.length) {
+                  title.innerText += originalTitle.charAt(i);
+                  i++;
+                  setTimeout(typeWriter, 100);
+              }
+          };
+          
+          // Inicialização
+          window.onload = function() {
+              createBubbles();
+              setTimeout(typeWriter, 500);
+          };
+          
+          const socket = new SockJS('/ws');
+          const stomp = Stomp.over(socket);
+          
+          stomp.connect({}, function() {
+              statusIndicator.classList.add('connected');
+              statusText.textContent = 'Conectado';
+              
+              stomp.subscribe("/topic/calls", function(message) {
+                  const call = JSON.parse(message.body);
+                  const callText = `Paciente: ${call.name} <br>Consultório:  ${call.room}`;
+                  
+                  // Adiciona ao histórico
+                  historyList.unshift(callText);
+                  if (historyList.length > 5) historyList.pop();
+                  
+                  // Atualiza a exibição
+                  main.innerHTML = callText;
+                  main.classList.add('active');
+                  
+                  // Atualiza o histórico
+                  history.innerHTML = historyList.map(c => `<div>${c}</div>`).join('');
+                  
+                  // Remove a classe de destaque após a animação
+                  setTimeout(() => {
+                      main.classList.remove('active');
+                  }, 2000);
+              });
+          }, function(error) {
+              statusText.textContent = 'Erro na conexão';
+              console.error('Erro na conexão:', error);
+          });
+        </script>
+    </body>
+</html>

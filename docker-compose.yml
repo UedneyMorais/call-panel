@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: call_panel
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: call_panel
+    ports:
+      - "5432:5432"
+    volumes:
+      - call_panel:/var/lib/postgresql/data
+
+volumes:
+  call_panel:
