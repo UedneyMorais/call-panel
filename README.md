@@ -21,35 +21,7 @@ Sistema simples de **painel de senhas** (estilo SUS), construído com **Spring B
 - HTML5
 - CSS3 (com animações visuais)
 - JavaScript (STOMP/WebSocket)
-
----
-
-## 📦 Estrutura do Projeto
-
-call-panel/
-├── src/
-│ └── main/
-│ ├── java/com/example/call_panel/
-│ │ ├── config/ # WebSocket config
-│ │ ├── controller/ # Endpoint REST
-│ │ ├── model/
-│ │ │ ├── dto/ # CallDTO
-│ │ │ └── entity/ # Call entity
-│ │ ├── repository/ # JPA repository
-│ │ └── service/ # Regras de negócio
-│ └── resources/
-│ ├── static/ # Frontend (index.html)
-│ └── application.properties
-├── Dockerfile
-├── docker-compose.yml
-└── pom.xml
-
-yaml
-Copiar
-Editar
-
----
-
+- 
 ## 🚀 Como Executar
 
 ### Pré-requisitos
@@ -74,9 +46,6 @@ docker-compose up -d
 ```
 Acesse o frontend no navegador:
 
-arduino
-Copiar
-Editar
 http://localhost:8080
 📡 WebSocket
 Endpoint WebSocket: /ws
