@@ -1,5 +1,5 @@
 ![Java](https://img.shields.io/badge/Java-17-red?logo=java&style=flat-square)
-![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2-brightgreen?logo=springboot&style=flat-square)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.4-brightgreen?logo=springboot&style=flat-square)
 ![WebSocket](https://img.shields.io/badge/WebSocket-Enabled-blueviolet?logo=websockets&style=flat-square)
 ![HTML](https://img.shields.io/badge/HTML-5-orange?logo=html5&style=flat-square)
 ![CSS](https://img.shields.io/badge/CSS-3-blue?logo=css3&style=flat-square)
