@@ -63,12 +63,15 @@ Editar
 # Clone o projeto
 git clone https://github.com/seu-usuario/call-panel.git
 cd call-panel
-
+```
 # Inicie o banco de dados
+```bash
 docker-compose up -d
-
+```
 # Compile e execute o backend
+```bash
 ./mvnw spring-boot:run
+```
 Acesse o frontend no navegador:
 
 arduino
