@@ -56,14 +56,12 @@ Tópico: /topic/calls
 Endpoint: POST /call
 
 Exemplo de payload:
-
-json
-Copiar
-Editar
+```bash
 {
   "name": "João da Silva",
   "room": "Consultório 3"
 }
+```
 
 ⚙️ application.properties
 ```bash
@@ -78,9 +76,7 @@ spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
 ```
 
 🐳 docker-compose.yml
-yaml
-Copiar
-Editar
+```bash
 version: '3.8'
 services:
   db:
@@ -91,8 +87,9 @@ services:
       POSTGRES_PASSWORD: password
     ports:
       - "5432:5432"
+```
 📸 Preview
-<!-- Substitua o link abaixo por uma imagem real do seu projeto -->
+https://imgur.com/a/Cxkf2dV
 
 👤 Autor
-Desenvolvido por Seu Nome 🚀
+Desenvolvido por Uedney C. Morais 🚀
