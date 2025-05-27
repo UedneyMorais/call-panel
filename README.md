@@ -66,9 +66,7 @@ Editar
 }
 
 ⚙️ application.properties
-properties
-Copiar
-Editar
+```bash
 spring.application.name=call-panel
 spring.datasource.url=jdbc:postgresql://localhost:5432/call_panel
 spring.datasource.username=postgres
@@ -77,6 +75,8 @@ spring.datasource.password=password
 spring.jpa.hibernate.ddl-auto=create-drop
 spring.jpa.show-sql=true
 spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+```
+
 🐳 docker-compose.yml
 yaml
 Copiar
