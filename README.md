@@ -26,3 +26,100 @@ Sistema simples de **painel de senhas** (estilo SUS), construído com **Spring B
 
 ## 📦 Estrutura do Projeto
 
+call-panel/
+├── src/
+│ └── main/
+│ ├── java/com/example/call_panel/
+│ │ ├── config/ # WebSocket config
+│ │ ├── controller/ # Endpoint REST
+│ │ ├── model/
+│ │ │ ├── dto/ # CallDTO
+│ │ │ └── entity/ # Call entity
+│ │ ├── repository/ # JPA repository
+│ │ └── service/ # Regras de negócio
+│ └── resources/
+│ ├── static/ # Frontend (index.html)
+│ └── application.properties
+├── Dockerfile
+├── docker-compose.yml
+└── pom.xml
+
+yaml
+Copiar
+Editar
+
+---
+
+## 🚀 Como Executar
+
+### Pré-requisitos
+- Java 17+
+- Maven
+- Docker e Docker Compose
+
+### Passos
+
+```bash
+# Clone o projeto
+git clone https://github.com/seu-usuario/call-panel.git
+cd call-panel
+
+# Inicie o banco de dados
+docker-compose up -d
+
+# Compile e execute o backend
+./mvnw spring-boot:run
+Acesse o frontend no navegador:
+
+arduino
+Copiar
+Editar
+http://localhost:8080
+📡 WebSocket
+Endpoint WebSocket: /ws
+
+Tópico: /topic/calls
+
+🧪 Testando a API
+Endpoint: POST /call
+
+Exemplo de payload:
+
+json
+Copiar
+Editar
+{
+  "name": "João da Silva",
+  "room": "Consultório 3"
+}
+⚙️ application.properties
+properties
+Copiar
+Editar
+spring.application.name=call-panel
+spring.datasource.url=jdbc:postgresql://localhost:5432/call_panel
+spring.datasource.username=postgres
+spring.datasource.password=password
+
+spring.jpa.hibernate.ddl-auto=create-drop
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+🐳 docker-compose.yml
+yaml
+Copiar
+Editar
+version: '3.8'
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: call_panel
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+📸 Preview
+<!-- Substitua o link abaixo por uma imagem real do seu projeto -->
+
+👤 Autor
+Desenvolvido por Seu Nome 🚀
