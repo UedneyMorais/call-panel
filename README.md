@@ -7,6 +7,9 @@
 
 
 # 📞 Painel de Chamadas em Tempo Real
+![Uploading Screenshot from 2025-07-16 10-13-50.png…]()
+
+
 
 Sistema simples de **painel de senhas** (estilo SUS), construído com **Spring Boot**, **WebSocket**, e **HTML/CSS/JS**. Permite exibir chamadas em tempo real em uma tela pública.
 
