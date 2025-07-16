@@ -7,7 +7,8 @@
 
 
 # 📞 Painel de Chamadas em Tempo Real
-![Uploading Screenshot from 2025-07-16 10-13-50.png…]()
+<img width="1917" height="1080" alt="Screenshot from 2025-07-16 10-13-50" src="https://github.com/user-attachments/assets/ab7dd853-788e-4602-8467-b7dbd4c2ef98" />
+
 
 
 
